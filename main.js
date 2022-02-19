@@ -86,10 +86,7 @@ const prepareText = (text) => {
 };
 
 const calculateLines = (height, text) => {
-  let lineBreaks = 0;
-  for (let i of text) {
-    i.match("\n") && lineBreaks++;
-  }
+  let lineBreaks = text.join(" ").split("\n").length - 1;
 
   let lineCount = Math.floor((imageHeight - margin * 2) / height) - lineBreaks;
   let wordCount = Math.floor(text.length / lineCount) + 1;
