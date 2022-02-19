@@ -93,15 +93,15 @@ const calculateLines = (height, text) => {
 
   let lineCount = Math.floor((imageHeight - margin * 2) / height) - lineBreaks;
   let wordCount = Math.floor(text.length / lineCount) + 1;
-  let lines = [];
+  let lines = [[]];
   for (let i in text) {
-    if (i % wordCount == 0) {
+    if (lines[lines.length - 1].length >= wordCount) {
       lines.push([]);
     }
     let lineSplit = text[i].split("\n");
-    lines[lines.length - 1].push(lineSplit[0]);
-    if (lineSplit.length > 1) {
-      lines.push([lineSplit[1]]);
+    lines[lines.length - 1].push(lineSplit.shift());
+    for (let i of lineSplit) {
+      lines.push([i]);
     }
   }
   for (let i in lines) {
