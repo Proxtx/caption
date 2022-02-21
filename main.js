@@ -5,13 +5,30 @@ const input = document.getElementById("text");
 const fontInput = document.getElementById("font");
 const imageHeightInput = document.getElementById("imageHeight");
 const marginInput = document.getElementById("margin");
+const textColorElem = document.getElementById("textColor");
+const backgroundColorElem = document.getElementById("backgroundColor");
+const centerTextCheck = document.getElementById("centerText");
+const lineSpacingElem = document.getElementById("lineSpacing");
 canvas.width = 500;
 canvas.height = 500;
 let imageHeight = 50;
 let img;
 let margin = 5;
+let textColor = "#ffffff";
+let backgroundColor = "#000000";
+let centerText = false;
+let lineSpacing = 0;
 
-let updateOnChange = [input, fontInput, imageHeightInput, marginInput];
+let updateOnChange = [
+  input,
+  fontInput,
+  imageHeightInput,
+  marginInput,
+  textColorElem,
+  backgroundColorElem,
+  centerTextCheck,
+  lineSpacingElem,
+];
 
 file.addEventListener("change", (evt) => {
   if (file.files && file.files[0]) {
@@ -43,6 +60,7 @@ const show = () => {
 
 for (let i of updateOnChange) {
   i.addEventListener("keyup", show);
+  i.addEventListener("change", show);
 }
 
 const render = (text) => {
@@ -51,34 +69,47 @@ const render = (text) => {
   let imageWidth = img.width * imageScale;
   canvas.height = imageHeight;
   canvas.width = text[0].width + text[1].width + imageWidth;
-  ctx.fillStyle = "black";
+  ctx.fillStyle = backgroundColor;
   ctx.fillRect(0, 0, text[0].width + text[1].width + imageWidth, imageHeight);
   ctx.drawImage(img, text[0].width, 0, imageWidth, imageHeight);
-  ctx.fillStyle = "white";
   drawText(0, text[0]);
   drawText(text[0].width + imageWidth, text[1]);
 };
 
 const drawText = (xPos, text) => {
+  ctx.fillStyle = textColor;
   ctx.font = fontInput.value;
   for (let i in text.lines) {
+    let x = xPos + margin;
+    if (centerText) {
+      x +=
+        text.width -
+        margin -
+        ctx.measureText(text.lines[i]).width / 2 -
+        text.width / 2;
+    }
     ctx.fillText(
       text.lines[i],
-      xPos + margin,
-      text.height * i + text.height + margin
+      x,
+      text.height * i + text.height + margin - lineSpacing
     );
   }
 };
 
 const prepareText = (text) => {
+  centerText = centerTextCheck.checked;
   imageHeight = imageHeightInput.value;
   margin = Number(marginInput.value);
+  textColor = textColorElem.value;
+  backgroundColor = backgroundColorElem.value;
+  lineSpacing = Number(lineSpacingElem.value);
   ctx.font = fontInput.value;
   let words = text.split(" ");
   let parts = [words.splice(0, words.length / 2), words];
   let height =
     ctx.measureText(text).actualBoundingBoxAscent +
-    ctx.measureText(text).actualBoundingBoxDescent;
+    ctx.measureText(text).actualBoundingBoxDescent +
+    lineSpacing;
   for (let i in parts) {
     parts[i] = calculateLines(height, parts[i]);
   }
@@ -91,8 +122,22 @@ const calculateLines = (height, text) => {
   let lineCount = Math.floor((imageHeight - margin * 2) / height) - lineBreaks;
   let wordCount = Math.floor(text.length / lineCount) + 1;
   let lines = [[]];
+  let actualHeight = (Math.ceil(text.length / wordCount) + lineBreaks) * height;
+  let textBreakDistance = imageHeight - actualHeight;
+
   for (let i in text) {
-    if (lines[lines.length - 1].length >= wordCount) {
+    let wordCountSubtract = 0;
+    if (
+      lines.length * height - height >
+        actualHeight - textBreakDistance + margin &&
+      lines.length * height - height < actualHeight
+    ) {
+      wordCountSubtract = Math.ceil(wordCount / 2);
+    }
+    if (lines.length * height - height >= actualHeight) {
+      wordCountSubtract = Math.floor(wordCount / 2);
+    }
+    if (lines[lines.length - 1].length >= wordCount - wordCountSubtract) {
       lines.push([]);
     }
     let lineSplit = text[i].split("\n");
@@ -110,5 +155,10 @@ const calculateLines = (height, text) => {
     if (mWidth > width) width = mWidth;
   }
 
-  return { lines, width, height, lineCount };
+  return {
+    lines,
+    width,
+    height,
+    lineCount,
+  };
 };
