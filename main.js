@@ -76,20 +76,22 @@ const render = (text) => {
   let imageScale = imageHeight / img.height;
   let imageWidth = img.width * imageScale;
   canvas.height = imageHeight;
-  ctx.fillStyle = backgroundColor;
   if (textPos == "sides") {
     canvas.width = text[0].width + text[1].width + imageWidth;
+    ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvas.width, imageHeight);
     ctx.drawImage(img, text[0].width, 0, imageWidth, imageHeight);
     drawText(0, text[0]);
     drawText(text[0].width + imageWidth, text[1]);
   } else if (textPos == "right") {
     canvas.width = text[0].width + imageWidth;
+    ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvas.width, imageHeight);
     ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
     drawText(imageWidth, text[0]);
   } else if (textPos == "left") {
     canvas.width = text[0].width + imageWidth;
+    ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvas.width, imageHeight);
     ctx.drawImage(img, text[0].width, 0, imageWidth, imageHeight);
     drawText(0, text[0]);
@@ -211,7 +213,7 @@ const calculateLines = (height, text) => {
   let width = 0;
   let lines;
   while (processedHeight > availableHeight) {
-    width += 3;
+    width += 10;
     lines = [[]];
     for (let t of text) {
       let textSplit = t.split("\n");
