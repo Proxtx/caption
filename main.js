@@ -9,6 +9,8 @@ const textColorElem = document.getElementById("textColor");
 const backgroundColorElem = document.getElementById("backgroundColor");
 const centerTextCheck = document.getElementById("centerText");
 const lineSpacingElem = document.getElementById("lineSpacing");
+const textPosition = document.getElementById("textPosition");
+const previewButton = document.getElementById("preview");
 canvas.width = 500;
 canvas.height = 500;
 let imageHeight = 50;
@@ -18,6 +20,7 @@ let textColor = "#ffffff";
 let backgroundColor = "#000000";
 let centerText = false;
 let lineSpacing = 0;
+let textPos;
 
 let updateOnChange = [
   input,
@@ -28,6 +31,7 @@ let updateOnChange = [
   backgroundColorElem,
   centerTextCheck,
   lineSpacingElem,
+  textPosition,
 ];
 
 file.addEventListener("change", (evt) => {
@@ -41,6 +45,8 @@ file.addEventListener("change", (evt) => {
 });
 
 document.getElementById("download").addEventListener("click", () => {
+  show();
+
   let image = canvas
     .toDataURL("image/png")
     .replace("image/png", "image/octet-stream");
@@ -58,22 +64,36 @@ const show = () => {
   }
 };
 
-for (let i of updateOnChange) {
+previewButton.addEventListener("click", show);
+
+/*for (let i of updateOnChange) {
   i.addEventListener("keyup", show);
   i.addEventListener("change", show);
-}
+}*/
 
 const render = (text) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   let imageScale = imageHeight / img.height;
   let imageWidth = img.width * imageScale;
   canvas.height = imageHeight;
-  canvas.width = text[0].width + text[1].width + imageWidth;
   ctx.fillStyle = backgroundColor;
-  ctx.fillRect(0, 0, text[0].width + text[1].width + imageWidth, imageHeight);
-  ctx.drawImage(img, text[0].width, 0, imageWidth, imageHeight);
-  drawText(0, text[0]);
-  drawText(text[0].width + imageWidth, text[1]);
+  if (textPos == "sides") {
+    canvas.width = text[0].width + text[1].width + imageWidth;
+    ctx.fillRect(0, 0, canvas.width, imageHeight);
+    ctx.drawImage(img, text[0].width, 0, imageWidth, imageHeight);
+    drawText(0, text[0]);
+    drawText(text[0].width + imageWidth, text[1]);
+  } else if (textPos == "right") {
+    canvas.width = text[0].width + imageWidth;
+    ctx.fillRect(0, 0, canvas.width, imageHeight);
+    ctx.drawImage(img, 0, 0, imageWidth, imageHeight);
+    drawText(imageWidth, text[0]);
+  } else if (textPos == "left") {
+    canvas.width = text[0].width + imageWidth;
+    ctx.fillRect(0, 0, canvas.width, imageHeight);
+    ctx.drawImage(img, text[0].width, 0, imageWidth, imageHeight);
+    drawText(0, text[0]);
+  }
 };
 
 const drawText = (xPos, text) => {
@@ -103,9 +123,16 @@ const prepareText = (text) => {
   textColor = textColorElem.value;
   backgroundColor = backgroundColorElem.value;
   lineSpacing = Number(lineSpacingElem.value);
+  textPos = textPosition.value;
   ctx.font = fontInput.value;
-  let words = text.split(" ");
-  let parts = [words.splice(0, words.length / 2), words];
+  let parts = [text];
+  if (textPos == "sides") {
+    parts = calculateSplit(text);
+  }
+  for (let i in parts) {
+    parts[i] = parts[i].split(" ");
+  }
+
   let height =
     ctx.measureText(text).actualBoundingBoxAscent +
     ctx.measureText(text).actualBoundingBoxDescent +
@@ -116,49 +143,104 @@ const prepareText = (text) => {
   return parts;
 };
 
-const calculateLines = (height, text) => {
-  let lineBreaks = text.join(" ").split("\n").length - 1;
-
-  let lineCount = Math.floor((imageHeight - margin * 2) / height) - lineBreaks;
-  let wordCount = Math.floor(text.length / lineCount) + 1;
-  let lines = [[]];
-  let actualHeight = (Math.ceil(text.length / wordCount) + lineBreaks) * height;
-  let textBreakDistance = imageHeight - actualHeight;
-
-  for (let i in text) {
-    let wordCountSubtract = 0;
-    if (
-      lines.length * height - height >
-        actualHeight - textBreakDistance + margin &&
-      lines.length * height - height < actualHeight
-    ) {
-      wordCountSubtract = Math.ceil(wordCount / 2);
-    }
-    if (lines.length * height - height >= actualHeight) {
-      wordCountSubtract = Math.floor(wordCount / 2);
-    }
-    if (lines[lines.length - 1].length >= wordCount - wordCountSubtract) {
-      lines.push([]);
-    }
-    let lineSplit = text[i].split("\n");
-    lines[lines.length - 1].push(lineSplit.shift());
-    for (let i of lineSplit) {
-      lines.push([i]);
-    }
+const calculateSplit = (text) => {
+  let textSplit = text.split(" ");
+  let rawSplitPos = Math.round(text.length / 2);
+  let splitPos = 0;
+  for (let i of textSplit) {
+    if (splitPos > rawSplitPos) break;
+    splitPos += i.length + 1;
   }
+  splitPos - 1;
+
+  let splitBreak = text.split("\n");
+  let lineBreakSplit = calculateMiddleOfArrayText(splitBreak);
+  if (Math.abs(lineBreakSplit.count - splitPos) < 100) {
+    return [
+      text.substring(0, lineBreakSplit.count),
+      text.substring(lineBreakSplit.count),
+    ];
+  }
+  let sentenceBreak = text.split(".");
+  let sentenceBreakSplit = calculateMiddleOfArrayText(sentenceBreak);
+  if (Math.abs(sentenceBreakSplit.count - splitPos) < 100) {
+    return [
+      text.substring(0, sentenceBreakSplit.count),
+      text.substring(sentenceBreakSplit.count),
+    ];
+  }
+
+  return [text.substring(0, splitPos), text.substring(splitPos)];
+};
+
+const calculateMiddleOfArrayText = (arrayText) => {
+  let currentLetters = 0;
+  for (let i of arrayText) {
+    currentLetters += i.length;
+  }
+
+  let middle = currentLetters / 2;
+  let currentCount = 0;
+  let i;
+
+  for (i in arrayText) {
+    if (currentCount > middle) break;
+    currentCount += arrayText[i].length + 1;
+  }
+
+  currentCount -= 1;
+
+  try {
+    let dist = Math.abs(currentCount - currentLetters);
+    if (
+      Math.abs(currentCount - arrayText[i - 1].length - currentLetters / 2) <
+      dist
+    ) {
+      currentCount -= arrayText[i - 1].length;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
+  return { pos: i, count: currentCount };
+};
+
+const calculateLines = (height, text) => {
+  let availableHeight = imageHeight - margin * 2;
+  let processedHeight = Infinity;
+  let width = 0;
+  let lines;
+  while (processedHeight > availableHeight) {
+    width += 3;
+    lines = [[]];
+    for (let t of text) {
+      let textSplit = t.split("\n");
+      for (let i in textSplit) {
+        lines[lines.length - 1].push(textSplit[i]);
+        if (ctx.measureText(lines[lines.length - 1].join(" ")).width > width) {
+          lines.push([lines[lines.length - 1].pop()]);
+          let wordLenthMeasure = ctx.measureText(
+            lines[lines.length - 1][0]
+          ).width;
+          if (wordLenthMeasure > width) {
+            width = wordLenthMeasure;
+          }
+        }
+        if (textSplit.length > 0 && i != textSplit.length - 1) {
+          lines.push([]);
+        }
+      }
+    }
+    processedHeight = lines.length * height;
+  }
+
   for (let i in lines) {
     lines[i] = lines[i].join(" ");
-  }
-  let width = 0;
-  for (let i of lines) {
-    let mWidth = ctx.measureText(i).width + margin * 2;
-    if (mWidth > width) width = mWidth;
   }
 
   return {
     lines,
-    width,
+    width: width + margin * 2,
     height,
-    lineCount,
   };
 };
