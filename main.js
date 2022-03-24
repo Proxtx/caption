@@ -4,6 +4,7 @@ const ctx = canvas.getContext("2d");
 const input = document.getElementById("text");
 const fontInput = document.getElementById("font");
 const imageHeightInput = document.getElementById("imageHeight");
+const fileName = document.getElementById("name");
 const marginInput = document.getElementById("margin");
 const textColorElem = document.getElementById("textColor");
 const backgroundColorElem = document.getElementById("backgroundColor");
@@ -52,7 +53,7 @@ document.getElementById("download").addEventListener("click", () => {
     .replace("image/png", "image/octet-stream");
 
   let link = document.createElement("a");
-  link.setAttribute("download", "caption.png");
+  link.setAttribute("download", fileName.value + ".png");
   link.setAttribute("href", image);
   link.click();
 });
