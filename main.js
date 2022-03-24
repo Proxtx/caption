@@ -79,15 +79,22 @@ const save = () => {
 	localStorage.setItem("centerText", centerTextCheck.checked);
 };
 const load = () => {
-	font.value = localStorage.getItem("font");
-	imageHeightInput.value = localStorage.getItem("imageHeight");
-	marginInput.value = localStorage.getItem("margin");
-	lineSpacingElem.value = localStorage.getItem("lineSpacing");
-	textPosition.value = localStorage.getItem("textPosition");
-	fileName.value = localStorage.getItem("name");
-	textColorElem.value = localStorage.getItem("textColor");
-	backgroundColorElem.value = localStorage.getItem("backgroundColor");
-	centerTextCheck.checked = localStorage.getItem("centerText");
+	function selectiveSet(field, property, type) {
+		if (localStorage.hasOwnProperty(property) && type == "string") {
+			field.value = localStorage.getItem(property);
+		} else if (localStorage.hasOwnProperty(property) && type == "boolean") {
+			field.checked = localStorage.getItem(property);
+		}
+	}
+    selectiveSet(font, "font", "string");
+	selectiveSet(imageHeightInput, "imageHeight", "string");
+	selectiveSet(marginInput, "margin", "string");
+	selectiveSet(lineSpacingElem, "lineSpacing", "string");
+	selectiveSet(textPosition, "textPosition", "string");
+	selectiveSet(fileName, "name", "string");
+	selectiveSet(textColorElem, "textColor", "string");
+	selectiveSet(backgroundColorElem, "backgroundColor", "string");
+	selectiveSet(centerTextCheck, "centerText", "boolean");
 };
 previewButton.addEventListener("click", show);
 document.addEventListener("load", load());
