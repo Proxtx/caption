@@ -24,24 +24,13 @@ let centerText = false;
 let lineSpacing = 0;
 let textPos;
 
-let updateOnChange = [
-  input,
-  fontInput,
-  imageHeightInput,
-  marginInput,
-  textColorElem,
-  backgroundColorElem,
-  centerTextCheck,
-  lineSpacingElem,
-  textPosition,
-];
 file.addEventListener("change", (evt) => {
   if (file.files && file.files[0]) {
     img = new Image();
     img.src = URL.createObjectURL(file.files[0]);
     img.onload = () => {
       show();
-	  imageHeightInput.value = img.naturalHeight; // Default to no resizing
+      //imageHeightInput.value = img.naturalHeight; // Default to no resizing
     };
   }
 });
@@ -68,39 +57,34 @@ const show = () => {
 };
 
 const save = () => {
-	localStorage.setItem("font", fontInput.value);
-	localStorage.setItem("margin", marginInput.value);	
-	localStorage.setItem("lineSpacing", lineSpacingElem.value);	
-	localStorage.setItem("textPosition", textPosition.value);	
-	localStorage.setItem("name", fileName.value);	
-	localStorage.setItem("textColor", textColorElem.value);	
-	localStorage.setItem("backgroundColor", backgroundColorElem.value);
-	localStorage.setItem("centerText", centerTextCheck.checked);
+  localStorage.setItem("font", fontInput.value);
+  localStorage.setItem("margin", marginInput.value);
+  localStorage.setItem("lineSpacing", lineSpacingElem.value);
+  localStorage.setItem("textPosition", textPosition.value);
+  localStorage.setItem("name", fileName.value);
+  localStorage.setItem("textColor", textColorElem.value);
+  localStorage.setItem("backgroundColor", backgroundColorElem.value);
+  localStorage.setItem("centerText", centerTextCheck.checked);
 };
 const load = () => {
-	function selectiveSet(field, property, type) {
-		if (localStorage.hasOwnProperty(property) && type == "string") {
-			field.value = localStorage.getItem(property);
-		} else if (localStorage.hasOwnProperty(property) && type == "boolean") {
-			field.checked = localStorage.getItem(property);
-		}
-	}
-	selectiveSet(font, "font", "string");
-	selectiveSet(marginInput, "margin", "string");
-	selectiveSet(lineSpacingElem, "lineSpacing", "string");
-	selectiveSet(textPosition, "textPosition", "string");
-	selectiveSet(fileName, "name", "string");
-	selectiveSet(textColorElem, "textColor", "string");
-	selectiveSet(backgroundColorElem, "backgroundColor", "string");
-	selectiveSet(centerTextCheck, "centerText", "boolean");
+  function selectiveSet(field, property, type) {
+    if (localStorage.hasOwnProperty(property) && type == "string") {
+      field.value = localStorage.getItem(property);
+    } else if (localStorage.hasOwnProperty(property) && type == "boolean") {
+      field.checked = localStorage.getItem(property);
+    }
+  }
+  selectiveSet(font, "font", "string");
+  selectiveSet(marginInput, "margin", "string");
+  selectiveSet(lineSpacingElem, "lineSpacing", "string");
+  selectiveSet(textPosition, "textPosition", "string");
+  selectiveSet(fileName, "name", "string");
+  selectiveSet(textColorElem, "textColor", "string");
+  selectiveSet(backgroundColorElem, "backgroundColor", "string");
+  selectiveSet(centerTextCheck, "centerText", "boolean");
 };
 previewButton.addEventListener("click", show);
 document.addEventListener("load", load());
-
-/*for (let i of updateOnChange) {
-  i.addEventListener("keyup", show);
-  i.addEventListener("change", show);
-}*/
 
 const render = (text) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
