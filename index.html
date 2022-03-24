@@ -10,7 +10,7 @@
   <body>
     <div id="optionsWrap" class="wrap">
       Image
-      <input type="file" id="file" />
+      <input type="file" id="file" accept="image/png, image/jpeg"/>
       <textarea id="text" placeholder="Text"></textarea>
       font
       <input type="text" value="15px sans-serif" id="font" />
@@ -20,6 +20,8 @@
       <input type="number" id="margin" value="8" />
       line-spacing
       <input type="number" id="lineSpacing" value="3" />
+	  name
+	  <input type="text" id="name" value="caption" />	  
       <div>
         <input type="color" value="#ffffff" id="textColor" /><input
           type="color"
@@ -37,8 +39,8 @@
           <option>right</option>
         </select>
       </div>
-      <button id="preview">Preview</button>
-      <button id="download">Download</button>
+      <button id="preview" title="Preview image with selected options">Preview</button>
+      <button id="download" title="Download image and store options">Download</button>
       By Proxtx
     </div>
     <div class="wrap">
