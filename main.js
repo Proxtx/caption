@@ -35,13 +35,13 @@ let updateOnChange = [
   lineSpacingElem,
   textPosition,
 ];
-
 file.addEventListener("change", (evt) => {
   if (file.files && file.files[0]) {
     img = new Image();
     img.src = URL.createObjectURL(file.files[0]);
     img.onload = () => {
       show();
+	  imageHeightInput.value = img.naturalHeight; // Default to no resizing
     };
   }
 });
@@ -69,7 +69,6 @@ const show = () => {
 
 const save = () => {
 	localStorage.setItem("font", fontInput.value);
-	localStorage.setItem("imageHeight", imageHeightInput.value);	
 	localStorage.setItem("margin", marginInput.value);	
 	localStorage.setItem("lineSpacing", lineSpacingElem.value);	
 	localStorage.setItem("textPosition", textPosition.value);	
@@ -86,8 +85,7 @@ const load = () => {
 			field.checked = localStorage.getItem(property);
 		}
 	}
-    selectiveSet(font, "font", "string");
-	selectiveSet(imageHeightInput, "imageHeight", "string");
+	selectiveSet(font, "font", "string");
 	selectiveSet(marginInput, "margin", "string");
 	selectiveSet(lineSpacingElem, "lineSpacing", "string");
 	selectiveSet(textPosition, "textPosition", "string");
