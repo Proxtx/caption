@@ -12,6 +12,7 @@ const centerTextCheck = document.getElementById("centerText");
 const lineSpacingElem = document.getElementById("lineSpacing");
 const textPosition = document.getElementById("textPosition");
 const previewButton = document.getElementById("preview");
+const resetButton = document.getElementById("reset");
 canvas.width = 500;
 canvas.height = 500;
 let imageHeight = 50;
@@ -47,6 +48,7 @@ file.addEventListener("change", (evt) => {
 
 document.getElementById("download").addEventListener("click", () => {
   show();
+  save();
 
   let image = canvas
     .toDataURL("image/png")
@@ -65,7 +67,30 @@ const show = () => {
   }
 };
 
+const save = () => {
+	localStorage.setItem("font", fontInput.value);
+	localStorage.setItem("imageHeight", imageHeightInput.value);	
+	localStorage.setItem("margin", marginInput.value);	
+	localStorage.setItem("lineSpacing", lineSpacingElem.value);	
+	localStorage.setItem("textPosition", textPosition.value);	
+	localStorage.setItem("name", fileName.value);	
+	localStorage.setItem("textColor", textColorElem.value);	
+	localStorage.setItem("backgroundColor", backgroundColorElem.value);
+	localStorage.setItem("centerText", centerTextCheck.checked);
+};
+const load = () => {
+	font.value = localStorage.getItem("font");
+	imageHeightInput.value = localStorage.getItem("imageHeight");
+	marginInput.value = localStorage.getItem("margin");
+	lineSpacingElem.value = localStorage.getItem("lineSpacing");
+	textPosition.value = localStorage.getItem("textPosition");
+	fileName.value = localStorage.getItem("name");
+	textColorElem.value = localStorage.getItem("textColor");
+	backgroundColorElem.value = localStorage.getItem("backgroundColor");
+	centerTextCheck.checked = localStorage.getItem("centerText");
+};
 previewButton.addEventListener("click", show);
+document.addEventListener("load", load());
 
 /*for (let i of updateOnChange) {
   i.addEventListener("keyup", show);
