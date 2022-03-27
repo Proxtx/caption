@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>caption</title>
+    <title>Caption</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -12,22 +12,21 @@
       Image
       <input type="file" id="file" accept="image/png, image/jpeg"/>
       <textarea id="text" placeholder="Text"></textarea>
-      font
+      Font
       <input type="text" value="15px sans-serif" id="font" />
-      image height (auto scale)
+      Output image height
       <input type="number" id="imageHeight" value="400" />
-      margin
+      Margin
       <input type="number" id="margin" value="8" />
-      line-spacing
+      Line-spacing
       <input type="number" id="lineSpacing" value="3" />
-	  name
+	  Name
 	  <input type="text" id="name" value="caption" />	  
       <div>
-        <input type="color" value="#ffffff" id="textColor" /><input
-          type="color"
-          value="#000000"
-          id="backgroundColor"
-        />
+        <input type="color" value="#ffffff" id="textColor" />
+		<label for="textColor">Text color</label>
+		<input type="color" value="#000000" id="backgroundColor" />
+		<label for="backgroundColor">Background color</label>
       </div>
       <div><input type="checkbox" id="centerText" />Center Text</div>
 
