@@ -9,18 +9,18 @@
   </head>
   <body>
     <div id="optionsWrap" class="wrap">
-      Image
+      <label for="file">Image</label>
       <input type="file" id="file" accept="image/png, image/jpeg"/>
       <textarea id="text" placeholder="Text"></textarea>
-      Font
+      <label for="font">Font</label>
       <input type="text" value="15px sans-serif" id="font" />
-      Output image height
+      <label for="imageHeight">Output image height</label>
       <input type="number" id="imageHeight" value="400" />
-      Margin
+      <label for="margin">Margin</label>
       <input type="number" id="margin" value="8" />
-      Line-spacing
+      <label for="lineSpacing">Line-spacing</label>
       <input type="number" id="lineSpacing" value="3" />
-	  Name
+	  <label for="name">Name</label>
 	  <input type="text" id="name" value="caption" />	  
       <div>
         <input type="color" value="#ffffff" id="textColor" />
@@ -28,8 +28,8 @@
 		<input type="color" value="#000000" id="backgroundColor" />
 		<label for="backgroundColor">Background color</label>
       </div>
-      <div><input type="checkbox" id="centerText" />Center Text</div>
-
+      <div><input type="checkbox" id="centerText" /><label for="centerText">Center Text</label></div>
+      <div><input type="checkbox" id="keepRes"/><label for="keepRes">Keep original image resolution</label></div>
       <div>
         <p>Text Position</p>
         <select id="textPosition">
@@ -38,13 +38,13 @@
           <option>right</option>
         </select>
       </div>
-      <button id="preview" title="Preview image with selected options">Preview</button>
-      <button id="download" title="Download image and store options">Download</button>
-      By Proxtx
+      <button id="preview" title="Preview image with selected options"><label for="preview">Preview</label></button>
+      <button id="download" title="Download image and store options"><label for="download">Download</label></button>
+      <p>By Proxtx</p>
     </div>
     <div class="wrap">
       <canvas id="canvas"></canvas>
     </div>
-    <script src="main.js" type="module"></script>
+    <script src="main.js"></script>
   </body>
 </html>
