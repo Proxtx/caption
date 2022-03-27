@@ -9,6 +9,7 @@ const marginInput = document.getElementById("margin");
 const textColorElem = document.getElementById("textColor");
 const backgroundColorElem = document.getElementById("backgroundColor");
 const centerTextCheck = document.getElementById("centerText");
+const keepResCheck = document.getElementById("keepRes");
 const lineSpacingElem = document.getElementById("lineSpacing");
 const textPosition = document.getElementById("textPosition");
 const previewButton = document.getElementById("preview");
@@ -30,7 +31,9 @@ file.addEventListener("change", (evt) => {
     img.src = URL.createObjectURL(file.files[0]);
     img.onload = () => {
       show();
-      //imageHeightInput.value = img.naturalHeight; // Default to no resizing
+	  if (keepResCheck.checked) {
+		imageHeightInput.value = img.naturalHeight;
+	  }
     };
   }
 });
@@ -64,6 +67,7 @@ const save = () => {
   localStorage.setItem("name", fileName.value);
   localStorage.setItem("textColor", textColorElem.value);
   localStorage.setItem("backgroundColor", backgroundColorElem.value);
+  localStorage.setItem("keepRes", keepResCheck.checked);  
   localStorage.setItem("centerText", centerTextCheck.checked);
 };
 const load = () => {
@@ -81,6 +85,7 @@ const load = () => {
   selectiveSet(fileName, "name", "string");
   selectiveSet(textColorElem, "textColor", "string");
   selectiveSet(backgroundColorElem, "backgroundColor", "string");
+  selectiveSet(keepResCheck, "keepRes", "boolean");
   selectiveSet(centerTextCheck, "centerText", "boolean");
 };
 previewButton.addEventListener("click", show);
