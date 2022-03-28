@@ -28,3 +28,7 @@ body {
 #text {
   height: 100px;
 }
+
+p,label {
+	font-family: sans-serif;
+}
