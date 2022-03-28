@@ -30,10 +30,10 @@ file.addEventListener("change", (evt) => {
     img = new Image();
     img.src = URL.createObjectURL(file.files[0]);
     img.onload = () => {
+      if (keepResCheck.checked) {
+        imageHeightInput.value = img.naturalHeight;
+      }
       show();
-	  if (keepResCheck.checked) {
-		imageHeightInput.value = img.naturalHeight;
-	  }
     };
   }
 });
@@ -67,15 +67,16 @@ const save = () => {
   localStorage.setItem("name", fileName.value);
   localStorage.setItem("textColor", textColorElem.value);
   localStorage.setItem("backgroundColor", backgroundColorElem.value);
-  localStorage.setItem("keepRes", keepResCheck.checked);  
+  localStorage.setItem("keepRes", keepResCheck.checked);
   localStorage.setItem("centerText", centerTextCheck.checked);
+  localStorage.setItem("imageHeight", imageHeightInput.value);
 };
 const load = () => {
   function selectiveSet(field, property, type) {
     if (localStorage.hasOwnProperty(property) && type == "string") {
       field.value = localStorage.getItem(property);
     } else if (localStorage.hasOwnProperty(property) && type == "boolean") {
-      field.checked = localStorage.getItem(property);
+      field.checked = "true" == localStorage.getItem(property);
     }
   }
   selectiveSet(font, "font", "string");
@@ -87,6 +88,7 @@ const load = () => {
   selectiveSet(backgroundColorElem, "backgroundColor", "string");
   selectiveSet(keepResCheck, "keepRes", "boolean");
   selectiveSet(centerTextCheck, "centerText", "boolean");
+  selectiveSet(imageHeightInput, "imageHeight", "string");
 };
 previewButton.addEventListener("click", show);
 document.addEventListener("load", load());
@@ -266,3 +268,18 @@ const calculateLines = (height, text) => {
     height,
   };
 };
+
+const changeListeners = [
+  fontInput,
+  marginInput,
+  imageHeightInput,
+  fileName,
+  textColorElem,
+  backgroundColorElem,
+  centerTextCheck,
+  keepResCheck,
+  lineSpacingElem,
+  textPosition,
+];
+
+changeListeners.forEach((value) => value.addEventListener("change", save));

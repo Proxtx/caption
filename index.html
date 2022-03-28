@@ -10,7 +10,7 @@
   <body>
     <div id="optionsWrap" class="wrap">
       <label for="file">Image</label>
-      <input type="file" id="file" accept="image/png, image/jpeg"/>
+      <input type="file" id="file" accept="image/png, image/jpeg" />
       <textarea id="text" placeholder="Text"></textarea>
       <label for="font">Font</label>
       <input type="text" value="15px sans-serif" id="font" />
@@ -20,16 +20,22 @@
       <input type="number" id="margin" value="8" />
       <label for="lineSpacing">Line-spacing</label>
       <input type="number" id="lineSpacing" value="3" />
-	  <label for="name">Name</label>
-	  <input type="text" id="name" value="caption" />	  
       <div>
         <input type="color" value="#ffffff" id="textColor" />
-		<label for="textColor">Text color</label>
-		<input type="color" value="#000000" id="backgroundColor" />
-		<label for="backgroundColor">Background color</label>
+        <label for="textColor">Text color</label>
+        <input type="color" value="#000000" id="backgroundColor" />
+        <label for="backgroundColor">Background color</label>
       </div>
-      <div><input type="checkbox" id="centerText" /><label for="centerText">Center Text</label></div>
-      <div><input type="checkbox" id="keepRes"/><label for="keepRes">Keep original image resolution</label></div>
+      <div>
+        <input type="checkbox" id="centerText" /><label for="centerText"
+          >Center Text</label
+        >
+      </div>
+      <div>
+        <input type="checkbox" id="keepRes" /><label for="keepRes"
+          >Keep original image resolution</label
+        >
+      </div>
       <div>
         <p>Text Position</p>
         <select id="textPosition">
@@ -38,9 +44,19 @@
           <option>right</option>
         </select>
       </div>
-      <button id="preview" title="Preview image with selected options"><label for="preview">Preview</label></button>
-      <button id="download" title="Download image and store options"><label for="download">Download</label></button>
-      <p>By Proxtx</p>
+      <label for="name">Name</label>
+      <input type="text" id="name" value="caption" />
+      <button id="preview" title="Preview image with selected options">
+        <label for="preview">Preview</label>
+      </button>
+      <button id="download" title="Download image and store options">
+        <label for="download">Download</label>
+      </button>
+      <p>
+        <a href="https://github.com/Proxtx/caption"
+          >https://github.com/Proxtx/caption</a
+        >
+      </p>
     </div>
     <div class="wrap">
       <canvas id="canvas"></canvas>
