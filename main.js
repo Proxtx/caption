@@ -1,6 +1,6 @@
-import { loadPack } from "/node_modules/@proxtx/uibuilder/main.js";
-await loadPack("/node_modules/@proxtx/material/components/pack.json", {
-  urlPrefix: "/node_modules/@proxtx/material",
+import { loadPack } from "./node_modules/@proxtx/uibuilder/main.js";
+await loadPack("./node_modules/@proxtx/material/components/pack.json", {
+  urlPrefix: "./node_modules/@proxtx/material",
 });
 
 const file = document.getElementById("file");
