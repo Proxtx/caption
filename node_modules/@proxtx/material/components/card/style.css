@@ -1,0 +1,8 @@
+#card {
+  padding: calc(var(--contentSpacing) * 2);
+  box-shadow: var(--shadow);
+  border-radius: var(--borderRadius);
+  background-color: var(--backgroundColor);
+  position: relative;
+  overflow: hidden;
+}

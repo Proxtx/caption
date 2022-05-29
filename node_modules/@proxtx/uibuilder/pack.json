@@ -1,0 +1,15 @@
+{
+  "components": {
+    "test-2": {
+      "template": "/testTemplate2/index.html",
+      "component": "/testTemplate2/handler.js",
+      "name": "test-2"
+    },
+    "test-test": {
+      "template": "/testTemplate/index.html",
+      "component": "/testTemplate/handler.js",
+      "name": "test-test",
+      "styles": ["/testTemplate/style.css"]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+#wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#topBar {
+  position: relative;
+  width: 100%;
+  height: calc(6 * var(--contentSpacing));
+  border-bottom: 1px solid var(--grey);
+}
+
+#tabs {
+  height: 100%;
+  display: flex;
+}
+
+#highlighter {
+  background-color: var(--accentColor);
+  height: 2px;
+  position: absolute;
+  width: 0px;
+  transition: calc(var(--transitionTime) * 2);
+  left: 0;
+  top: 100%;
+  transform: translateY(-100%);
+}

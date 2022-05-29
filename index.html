@@ -8,60 +8,90 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="optionsWrap" class="wrap">
-      <label for="file">Image</label>
-      <input type="file" id="file" accept="image/png, image/jpeg" />
-      <textarea id="text" placeholder="Text"></textarea>
-      <label for="font">Font</label>
-      <input type="text" value="15px sans-serif" id="font" />
-      <a class="hint">You can use any font installed on your system.</a>
-      <label for="imageHeight">Output image height</label>
-      <input type="number" id="imageHeight" value="400" />
-      <label for="margin">Margin</label>
-      <input type="number" id="margin" value="8" />
-      <label for="lineSpacing">Line-spacing</label>
-      <input type="number" id="lineSpacing" value="3" />
-      <div>
-        <input type="color" value="#ffffff" id="textColor" />
-        <label for="textColor">Text color</label>
-        <input type="color" value="#000000" id="backgroundColor" />
-        <label for="backgroundColor">Background color</label>
+    <m-card class="wrap">
+      <div id="optionsWrap">
+        <label for="file">Image</label>
+        <input type="file" id="file" accept="image/png, image/jpeg" />
+        <m-text-input
+          id="text"
+          placeholder="Text"
+          textarea="true"
+        ></m-text-input>
+        <m-text-input
+          value="15px sans-serif"
+          id="font"
+          placeholder="Font"
+          value="test"
+        ></m-text-input>
+        <a class="hint">You can use any font installed on your system.</a>
+        <m-text-input
+          id="imageHeight"
+          value="400"
+          placeholder="Output image height"
+        ></m-text-input>
+        <m-text-input placeholder="Margin" id="margin" value="8"></m-text-input>
+        <m-text-input
+          placeholder="Line-Spacing"
+          id="lineSpacing"
+          value="3"
+        ></m-text-input>
+        <div>
+          <input type="color" value="#ffffff" id="textColor" />
+          <label for="textColor">Text color</label>
+          <input type="color" value="#000000" id="backgroundColor" />
+          <label for="backgroundColor">Background color</label>
+        </div>
+        <div class="flexCenter">
+          <m-checkbox id="centerText"></m-checkbox
+          ><label for="centerText">Center Text</label>
+        </div>
+        <div class="flexCenter">
+          <m-checkbox type="checkbox" id="keepRes"></m-checkbox
+          ><label for="keepRes">Keep original image resolution</label>
+        </div>
+        <div>
+          <p>Text Position</p>
+          <select id="textPosition">
+            <option>sides</option>
+            <option>left</option>
+            <option>right</option>
+          </select>
+        </div>
+
+        <div class="divider"></div>
+
+        <m-text-input
+          type="outlined"
+          id="name"
+          value="caption"
+          placeholder="Name"
+        ></m-text-input>
+        <div>
+          <m-button
+            id="preview"
+            title="Preview image with selected options"
+            type="outlined"
+          >
+            <label for="preview">Preview</label>
+          </m-button>
+          <m-button
+            id="download"
+            class="button"
+            title="Download image and store options"
+          >
+            <label for="download">Download</label>
+          </m-button>
+        </div>
+        <p>
+          <a href="https://github.com/Proxtx/caption"
+            >https://github.com/Proxtx/caption</a
+          >
+        </p>
       </div>
-      <div>
-        <input type="checkbox" id="centerText" /><label for="centerText"
-          >Center Text</label
-        >
-      </div>
-      <div>
-        <input type="checkbox" id="keepRes" /><label for="keepRes"
-          >Keep original image resolution</label
-        >
-      </div>
-      <div>
-        <p>Text Position</p>
-        <select id="textPosition">
-          <option>sides</option>
-          <option>left</option>
-          <option>right</option>
-        </select>
-      </div>
-      <label for="name">Name</label>
-      <input type="text" id="name" value="caption" />
-      <button id="preview" title="Preview image with selected options">
-        <label for="preview">Preview</label>
-      </button>
-      <button id="download" title="Download image and store options">
-        <label for="download">Download</label>
-      </button>
-      <p>
-        <a href="https://github.com/Proxtx/caption"
-          >https://github.com/Proxtx/caption</a
-        >
-      </p>
-    </div>
-    <div class="wrap">
+    </m-card>
+    <m-card class="wrap" wave="true">
       <canvas id="canvas"></canvas>
-    </div>
+    </m-card>
     <script src="main.js" type="module"></script>
   </body>
 </html>

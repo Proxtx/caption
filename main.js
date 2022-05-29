@@ -1,3 +1,8 @@
+import { loadPack } from "/node_modules/@proxtx/uibuilder/main.js";
+await loadPack("/node_modules/@proxtx/material/components/pack.json", {
+  urlPrefix: "/node_modules/@proxtx/material",
+});
+
 const file = document.getElementById("file");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -13,7 +18,6 @@ const keepResCheck = document.getElementById("keepRes");
 const lineSpacingElem = document.getElementById("lineSpacing");
 const textPosition = document.getElementById("textPosition");
 const previewButton = document.getElementById("preview");
-const resetButton = document.getElementById("reset");
 canvas.width = 500;
 canvas.height = 500;
 let imageHeight = 50;
@@ -31,7 +35,7 @@ file.addEventListener("change", (evt) => {
     img.src = URL.createObjectURL(file.files[0]);
     img.onload = () => {
       if (keepResCheck.checked) {
-        imageHeightInput.value = img.naturalHeight;
+        imageHeightInput.component.value = img.naturalHeight;
       }
       show();
     };
@@ -47,36 +51,38 @@ document.getElementById("download").addEventListener("click", () => {
     .replace("image/png", "image/octet-stream");
 
   let link = document.createElement("a");
-  link.setAttribute("download", fileName.value + ".png");
+  link.setAttribute("download", fileName.component.value + ".png");
   link.setAttribute("href", image);
   link.click();
 });
 
 const show = () => {
   if (img) {
-    let text = prepareText(input.value);
+    let text = prepareText(input.component.value);
     render(text);
   }
 };
 
 const save = () => {
-  localStorage.setItem("font", fontInput.value);
-  localStorage.setItem("margin", marginInput.value);
-  localStorage.setItem("lineSpacing", lineSpacingElem.value);
+  localStorage.setItem("font", fontInput.component.value);
+  localStorage.setItem("margin", marginInput.component.value);
+  localStorage.setItem("lineSpacing", lineSpacingElem.component.value);
   localStorage.setItem("textPosition", textPosition.value);
-  localStorage.setItem("name", fileName.value);
+  localStorage.setItem("name", fileName.component.value);
   localStorage.setItem("textColor", textColorElem.value);
   localStorage.setItem("backgroundColor", backgroundColorElem.value);
-  localStorage.setItem("keepRes", keepResCheck.checked);
-  localStorage.setItem("centerText", centerTextCheck.checked);
-  localStorage.setItem("imageHeight", imageHeightInput.value);
+  localStorage.setItem("keepRes", keepResCheck.component.checked);
+  localStorage.setItem("centerText", centerTextCheck.component.checked);
+  localStorage.setItem("imageHeight", imageHeightInput.component.value);
 };
 const load = () => {
   function selectiveSet(field, property, type) {
     if (localStorage.hasOwnProperty(property) && type == "string") {
-      field.value = localStorage.getItem(property);
+      if (field.component)
+        field.component.value = localStorage.getItem(property);
+      else field.value = localStorage.getItem(property);
     } else if (localStorage.hasOwnProperty(property) && type == "boolean") {
-      field.checked = "true" == localStorage.getItem(property);
+      field.component.checked = localStorage.getItem(property) == "true";
     }
   }
   selectiveSet(font, "font", "string");
@@ -122,7 +128,7 @@ const render = (text) => {
 
 const drawText = (xPos, text) => {
   ctx.fillStyle = textColor;
-  ctx.font = fontInput.value;
+  ctx.font = fontInput.component.value;
   for (let i in text.lines) {
     let x = xPos + margin;
     if (centerText) {
@@ -141,14 +147,14 @@ const drawText = (xPos, text) => {
 };
 
 const prepareText = (text) => {
-  centerText = centerTextCheck.checked;
-  imageHeight = imageHeightInput.value;
-  margin = Number(marginInput.value);
+  centerText = centerTextCheck.component.checked;
+  imageHeight = imageHeightInput.component.value;
+  margin = Number(marginInput.component.value);
   textColor = textColorElem.value;
   backgroundColor = backgroundColorElem.value;
-  lineSpacing = Number(lineSpacingElem.value);
+  lineSpacing = Number(lineSpacingElem.component.value);
   textPos = textPosition.value;
-  ctx.font = fontInput.value;
+  ctx.font = fontInput.component.value;
   let parts = [text];
   if (textPos == "sides") {
     parts = calculateSplit(text);

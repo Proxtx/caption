@@ -1,0 +1,23 @@
+{
+  "name": "caption",
+  "version": "1.0.0",
+  "description": "Caption images easily",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Proxtx/caption.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Proxtx/caption/issues"
+  },
+  "homepage": "https://github.com/Proxtx/caption#readme",
+  "dependencies": {
+    "@proxtx/material": "^1.0.4",
+    "@proxtx/uibuilder": "^1.1.0"
+  }
+}

@@ -9,6 +9,7 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  overflow: scroll;
 }
 
 #optionsWrap {
@@ -18,21 +19,27 @@ body {
 }
 
 .wrap {
-  background-color: #e3e3e3;
-  border: 1px solid black;
-  border-radius: 20px;
-  padding: 10px;
   margin: 10px;
 }
 
-#text {
-  height: 100px;
+p,
+label {
+  font-family: sans-serif;
 }
 
-p,label {
-	font-family: sans-serif;
-}
-
-.hint{
+.hint {
   font-style: italic;
+}
+
+.flexCenter {
+  display: flex;
+  align-items: center;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: grey;
 }
