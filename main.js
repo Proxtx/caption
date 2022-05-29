@@ -1,7 +1,10 @@
-import { loadPack } from "./node_modules/@proxtx/uibuilder/main.js";
-await loadPack("./node_modules/@proxtx/material/components/pack.json", {
-  urlPrefix: "./node_modules/@proxtx/material",
-});
+import { loadPack } from "https://unpkg.com/@proxtx/uibuilder@1.1.0/main.js";
+await loadPack(
+  "https://unpkg.com/@proxtx/material@1.0.4/components/pack.json",
+  {
+    urlPrefix: "https://unpkg.com/@proxtx/material@1.0.4/",
+  }
+);
 
 const file = document.getElementById("file");
 const canvas = document.getElementById("canvas");
