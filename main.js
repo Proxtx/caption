@@ -17,6 +17,7 @@ const marginInput = document.getElementById("margin");
 const textColorElem = document.getElementById("textColor");
 const backgroundColorElem = document.getElementById("backgroundColor");
 const centerTextCheck = document.getElementById("centerText");
+const centerTextCheckV = document.getElementById("centerTextV");
 const keepResCheck = document.getElementById("keepRes");
 const lineSpacingElem = document.getElementById("lineSpacing");
 const textPosition = document.getElementById("textPosition");
@@ -29,6 +30,7 @@ let margin = 5;
 let textColor = "#ffffff";
 let backgroundColor = "#000000";
 let centerText = false;
+let centerTextV = false;
 let lineSpacing = 0;
 let textPos;
 
@@ -76,6 +78,7 @@ const save = () => {
   localStorage.setItem("backgroundColor", backgroundColorElem.value);
   localStorage.setItem("keepRes", keepResCheck.component.checked);
   localStorage.setItem("centerText", centerTextCheck.component.checked);
+  localStorage.setItem("centerTextV", centerTextCheckV.component.checked);
   localStorage.setItem("imageHeight", imageHeightInput.component.value);
 };
 const load = () => {
@@ -97,6 +100,7 @@ const load = () => {
   selectiveSet(backgroundColorElem, "backgroundColor", "string");
   selectiveSet(keepResCheck, "keepRes", "boolean");
   selectiveSet(centerTextCheck, "centerText", "boolean");
+  selectiveSet(centerTextCheckV, "centerTextV", "boolean");
   selectiveSet(imageHeightInput, "imageHeight", "string");
 };
 previewButton.addEventListener("click", show);
@@ -141,16 +145,18 @@ const drawText = (xPos, text) => {
         ctx.measureText(text.lines[i]).width / 2 -
         text.width / 2;
     }
-    ctx.fillText(
-      text.lines[i],
-      x,
-      text.height * i + text.height + margin - lineSpacing
-    );
+    let yPos = text.height * i + text.height + margin - lineSpacing;
+    if (centerTextV) {
+      yPos +=
+        (imageHeight - text.height * text.lines.length) / 2 - text.height / 2;
+    }
+    ctx.fillText(text.lines[i], x, yPos);
   }
 };
 
 const prepareText = (text) => {
   centerText = centerTextCheck.component.checked;
+  centerTextV = centerTextCheckV.component.checked;
   imageHeight = imageHeightInput.component.value;
   margin = Number(marginInput.component.value);
   textColor = textColorElem.value;
@@ -286,9 +292,14 @@ const changeListeners = [
   textColorElem,
   backgroundColorElem,
   centerTextCheck,
+  centerTextCheckV,
   keepResCheck,
   lineSpacingElem,
   textPosition,
 ];
 
-changeListeners.forEach((value) => value.addEventListener("change", save));
+changeListeners.forEach((value) =>
+  value.addEventListener("change", () => {
+    save();
+  })
+);
