@@ -39,7 +39,7 @@ file.addEventListener("change", (evt) => {
     img = new Image();
     img.src = URL.createObjectURL(file.files[0]);
     img.onload = () => {
-      if (keepResCheck.checked) {
+      if (keepResCheck.component.checked) {
         imageHeightInput.component.value = img.naturalHeight;
       }
       show();
@@ -81,6 +81,7 @@ const save = () => {
   localStorage.setItem("centerTextV", centerTextCheckV.component.checked);
   localStorage.setItem("imageHeight", imageHeightInput.component.value);
 };
+
 const load = () => {
   function selectiveSet(field, property, type) {
     if (localStorage.hasOwnProperty(property) && type == "string") {
