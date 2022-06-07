@@ -82,6 +82,10 @@ const save = () => {
   localStorage.setItem("imageHeight", imageHeightInput.component.value);
 };
 
+const toggleVisible = () => {
+	imageHeightInput.style.display = keepResCheck.component.checked ? "none" : "";
+}
+
 const load = () => {
   function selectiveSet(field, property, type) {
     if (localStorage.hasOwnProperty(property) && type == "string") {
@@ -103,6 +107,7 @@ const load = () => {
   selectiveSet(centerTextCheck, "centerText", "boolean");
   selectiveSet(centerTextCheckV, "centerTextV", "boolean");
   selectiveSet(imageHeightInput, "imageHeight", "string");
+  toggleVisible();
 };
 previewButton.addEventListener("click", show);
 document.addEventListener("load", load());
@@ -304,3 +309,5 @@ changeListeners.forEach((value) =>
     save();
   })
 );
+
+keepResCheck.addEventListener("click", toggleVisible);
