@@ -2,7 +2,7 @@ import { loadPack } from "https://unpkg.com/@proxtx/uibuilder@1.1.0/main.js";
 await loadPack(
   "https://unpkg.com/@proxtx/material@1.0.4/components/pack.json",
   {
-    urlPrefix: "https://unpkg.com/@proxtx/material@1.0.4/",
+    urlPrefix: "https://unpkg.com/@proxtx/material@1.0.82/",
   }
 );
 
@@ -83,8 +83,8 @@ const save = () => {
 };
 
 const toggleVisible = () => {
-	imageHeightInput.style.display = keepResCheck.component.checked ? "none" : "";
-}
+  imageHeightInput.style.display = keepResCheck.component.checked ? "none" : "";
+};
 
 const load = () => {
   function selectiveSet(field, property, type) {
