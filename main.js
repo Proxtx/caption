@@ -1,8 +1,8 @@
-import { loadPack } from "https://unpkg.com/@proxtx/uibuilder@1.1.0/main.js";
+import { loadPack } from "https://unpkg.com/@proxtx/uibuilder@1.2.1/main.js";
 await loadPack(
-  "https://unpkg.com/@proxtx/material@1.0.4/components/pack.json",
+  "https://unpkg.com/@proxtx/material@1.1.1/components/pack.json",
   {
-    urlPrefix: "https://unpkg.com/@proxtx/material@1.0.82/",
+    urlPrefix: "https://unpkg.com/@proxtx/material@1.1.1/",
   }
 );
 
